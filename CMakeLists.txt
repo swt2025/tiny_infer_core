@@ -32,5 +32,12 @@ target_link_libraries(test_gemm
 	PRIVATE
 	tinyinfer
 )
+add_executable(bench_gemm
+    benchmark/bench_gemm.cpp
+)
 
+target_link_libraries(bench_gemm
+    PRIVATE
+        tinyinfer
+)
 
