@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(tinyinfer
 	src/core/matrix.cpp
+	src/ops/gemm.cpp
 )
 
 target_include_directories(tinyinfer
@@ -20,9 +21,16 @@ add_executable(test_matrix
 
 target_link_libraries(test_matrix
 	PRIVATE
-		tinyinfer
+	tinyinfer
 )
 
+add_executable(test_gemm
+	tests/test_gemm.cpp
+)
 
+target_link_libraries(test_gemm
+	PRIVATE
+	tinyinfer
+)
 
 
