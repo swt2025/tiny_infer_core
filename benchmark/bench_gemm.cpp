@@ -19,7 +19,10 @@ namespace {
 		}
 	}
 
-	void RunBenchmark(std::size_t n) {
+	using GemmFunc = tinyinfer::Matrix(*)(const tinyinfer::Matrix&,
+			const tinyinfer::Matrix&);
+
+	void RunBenchmark(const std::string& name, GemmFunc gemm_func, std::size_t n) {
 		tinyinfer::Matrix a(n, n);
 		tinyinfer::Matrix b(n, n);
 
@@ -29,13 +32,13 @@ namespace {
 		// warmup
 		volatile float sink = 0.0f;
 		{
-			tinyinfer::Matrix c = tinyinfer::GemmNaive(a, b);
+			tinyinfer::Matrix c = gemm_func(a, b);
 			sink = c(0, 0);
 		}
 
 		const auto start = std::chrono::high_resolution_clock::now();
 
-		tinyinfer::Matrix c = tinyinfer::GemmNaive(a, b);
+		tinyinfer::Matrix c = gemm_func(a, b);
 
 		const auto end = std::chrono::high_resolution_clock::now();
 
@@ -45,7 +48,8 @@ namespace {
 		const double flops = 2.0 * n * n * n;
 		const double gflops = flops / (ms / 1000.0) / 1e9;
 
-		std::cout << "N = " << n
+		std::cout << name 
+			<< ", N = " << n
 			<< ", time = " << ms << " ms"
 			<< ", GFLOPS = " << gflops
 			<< ", sink = " << sink
@@ -58,7 +62,9 @@ int main() {
 	const std::vector<std::size_t> sizes = {64, 128, 256, 512};
 
 	for (const auto n : sizes) {
-		RunBenchmark(n);
+		RunBenchmark("GemmIJK",tinyinfer::GemmIJK, n);
+		RunBenchmark("GemmIKJ",tinyinfer::GemmIKJ, n);
+		std::cout << "\n";
 	}
 
 	return 0;

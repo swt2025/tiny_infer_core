@@ -92,6 +92,42 @@ namespace {
 		assert(caught);
 	}
 
+	void TestGemmIJKEqualsIKJ() {
+		tinyinfer::Matrix a(3, 4);
+		tinyinfer::Matrix b(4, 2);
+
+		float value = 1.0f;
+
+		for (std::size_t i = 0; i < a.rows(); ++i) {
+			for (std::size_t j = 0; j < a.cols(); ++j) {
+				a(i, j) = value;
+				value += 1.0f;
+			}
+		}
+
+		value = 1.0f;
+
+		for (std::size_t i = 0; i < b.rows(); ++i) {
+			for (std::size_t j = 0; j < b.cols(); ++j) {
+				b(i, j) = value;
+				value += 1.0f;
+			}
+		}
+
+		tinyinfer::Matrix c_ijk = tinyinfer::GemmIJK(a, b);
+		tinyinfer::Matrix c_ikj = tinyinfer::GemmIKJ(a, b);
+
+		assert(c_ijk.rows() == c_ikj.rows());
+		assert(c_ijk.cols() == c_ikj.cols());
+
+		for (std::size_t i = 0;i < c_ijk.rows(); ++i) {
+			for (std::size_t j = 0; j < c_ikj.cols(); ++j) {
+				assert(c_ijk(i, j) == c_ikj(i, j));
+			}
+		}
+	}
+
+
 }  // namespace
 
 int main() {
@@ -99,6 +135,7 @@ int main() {
 	TestGemmIdentity();
 	TestGemmZeroMatrix();
 	TestGemmShapeMismatch();
+	TestGemmIJKEqualsIKJ();
 
 	std::cout << "All GEMM tests passed.\n";
 	return 0;
