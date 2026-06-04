@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(tinyinfer
 	src/core/matrix.cpp
 	src/ops/gemm.cpp
+	src/ops/softmax.cpp
 )
 
 target_include_directories(tinyinfer
@@ -32,6 +33,15 @@ target_link_libraries(test_gemm
 	PRIVATE
 	tinyinfer
 )
+
+add_executable(test_softmax
+	tests/test_softmax.cpp
+)
+target_link_libraries(test_softmax
+	PRIVATE
+	tinyinfer
+)
+
 add_executable(bench_gemm
     benchmark/bench_gemm.cpp
 )
