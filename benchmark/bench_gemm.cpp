@@ -30,10 +30,10 @@ namespace {
 		FillRandom(b);
 
 		// warmup
-		volatile float sink = 0.0f;
 		{
 			tinyinfer::Matrix c = gemm_func(a, b);
-			sink = c(0, 0);
+			volatile float sink = c(0, 0);
+			(void)sink;
 		}
 
 		const auto start = std::chrono::high_resolution_clock::now();
@@ -41,6 +41,9 @@ namespace {
 		tinyinfer::Matrix c = gemm_func(a, b);
 
 		const auto end = std::chrono::high_resolution_clock::now();
+
+		volatile float sink = c(0, 0);
+		(void)sink;
 
 		const double ms =
 			std::chrono::duration<double, std::milli>(end - start).count();
@@ -56,14 +59,54 @@ namespace {
 			<< "\n";
 	}
 
+	void RunBlockedBenchmark(std::size_t n, std::size_t block_size) {
+		tinyinfer::Matrix a(n, n);
+		tinyinfer::Matrix b(n, n);
+
+		FillRandom(a);
+		FillRandom(b);
+
+		{
+			tinyinfer::Matrix warmup = tinyinfer::GemmBlocked(a, b, block_size);
+			volatile float sink = warmup(0,0);
+			(void)sink;
+		}
+
+		const auto start = std::chrono::high_resolution_clock::now();
+
+		tinyinfer::Matrix c = tinyinfer::GemmBlocked(a, b, block_size);
+
+		const auto end = std::chrono::high_resolution_clock::now();
+
+		volatile float sink = c(0, 0);
+		(void)sink;
+
+		const double ms = std::chrono::duration<double, std::milli>(end - start).count();
+
+		const double flops = 2 * n * n * n;
+		const double gflops = flops / (ms / 1000.0) / 1e9;
+
+		std::cout << "GemmBlocked"
+			<< ", N = " << n
+			<< ", block_size = " << block_size
+			<< ", time = " << ms << " ms"
+			<< ", GFLOPS = " << gflops
+			<< "\n";
+	}
 }  // namespace
 
 int main() {
-	const std::vector<std::size_t> sizes = {64, 128, 256, 512};
+	const std::vector<std::size_t> sizes = {128, 256, 512, 1024};
+	const std::vector<std::size_t> block_sizes = {16, 32, 64, 128};
 
 	for (const auto n : sizes) {
 		RunBenchmark("GemmIJK",tinyinfer::GemmIJK, n);
 		RunBenchmark("GemmIKJ",tinyinfer::GemmIKJ, n);
+
+		for (const auto block_size : block_sizes) {
+			RunBlockedBenchmark(n, block_size);
+		}
+
 		std::cout << "\n";
 	}
 

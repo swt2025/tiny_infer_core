@@ -127,6 +127,46 @@ namespace {
 		}
 	}
 
+	void TestGemmBlockedEqualsIKJ() {
+		tinyinfer::Matrix a(5, 7);
+		tinyinfer::Matrix b(7, 4);
+
+		float value = 1.0f;
+
+		for (std::size_t i = 0; i < a.rows(); ++i) {
+			for (std::size_t j = 0; j < a.cols(); ++j) {
+				a(i, j) = value;
+				value += 0.1f;
+			}
+		}
+
+		value = -1.0f;
+
+		for (std::size_t i = 0; i < b.rows(); ++i) {
+			for (std::size_t j = 0; j < b.cols(); ++j) {
+				b(i, j) = value;
+				value += 0.2f;
+			}
+		}
+
+		tinyinfer::Matrix expected = tinyinfer::GemmIKJ(a, b);
+		
+		const std::vector<std::size_t> block_sizes = {1,2,3,4,8};
+
+		for (const auto block_size : block_sizes) {
+			tinyinfer::Matrix actual = tinyinfer::GemmBlocked(a, b, block_size);
+
+			assert(actual.rows() == expected.rows());
+			assert(actual.cols() == expected.cols());
+
+			for (std::size_t i = 0; i < actual.rows(); ++i) {
+				for (std::size_t j = 0; j < actual.cols(); ++j) {
+					assert(AlmostEqual(actual(i, j), expected(i, j), 1e-4));
+				}
+			}
+		}
+	}
+
 
 }  // namespace
 
@@ -136,6 +176,7 @@ int main() {
 	TestGemmZeroMatrix();
 	TestGemmShapeMismatch();
 	TestGemmIJKEqualsIKJ();
+	TestGemmBlockedEqualsIKJ();
 
 	std::cout << "All GEMM tests passed.\n";
 	return 0;

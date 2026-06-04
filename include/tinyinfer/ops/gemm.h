@@ -8,4 +8,6 @@ namespace tinyinfer {
 	Matrix GemmIJK(const Matrix& a, const Matrix& b);
 	Matrix GemmIKJ(const Matrix& a, const Matrix& b);
 
+	Matrix GemmBlocked(const Matrix& a, const Matrix& b, std::size_t block_size);
+
 }  // namespace tinyinfer
