@@ -9,6 +9,7 @@ add_library(tinyinfer
 	src/core/matrix.cpp
 	src/ops/gemm.cpp
 	src/ops/softmax.cpp
+	src/ops/rms_norm.cpp
 )
 
 target_include_directories(tinyinfer
@@ -43,11 +44,19 @@ target_link_libraries(test_softmax
 )
 
 add_executable(bench_gemm
-    benchmark/bench_gemm.cpp
+	benchmark/bench_gemm.cpp
 )
 
 target_link_libraries(bench_gemm
-    PRIVATE
-        tinyinfer
+	PRIVATE
+	tinyinfer
 )
 
+add_executable(test_rms_norm
+	tests/test_rms_norm.cpp
+)
+
+target_link_libraries(test_rms_norm
+	PRIVATE
+	tinyinfer
+)
