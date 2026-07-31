@@ -96,7 +96,7 @@ namespace {
 }  // namespace
 
 int main() {
-	const std::vector<std::size_t> sizes = {128, 256, 512, 1024};
+	const std::vector<std::size_t> sizes = {128, 256, 512, 1024, 2048};
 	const std::vector<std::size_t> block_sizes = {16, 32, 64, 128};
 
 	for (const auto n : sizes) {
