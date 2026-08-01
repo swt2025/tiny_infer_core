@@ -12,6 +12,7 @@ add_library(tinyinfer
 	src/ops/rms_norm.cpp
 	src/ops/silu.cpp
 	src/ops/swiglu.cpp
+	src/ops/linear.cpp
 )
 
 target_include_directories(tinyinfer
@@ -81,6 +82,15 @@ target_link_libraries(test_swiglu
 	tinyinfer
 )
 
+add_executable(test_linear
+	tests/test_linear.cpp
+)
+
+target_link_libraries(test_linear
+	PRIVATE
+	tinyinfer
+)
+
 
 enable_testing()
 
@@ -90,3 +100,4 @@ add_test(NAME test_softmax COMMAND test_softmax)
 add_test(NAME test_rms_norm COMMAND test_rms_norm)
 add_test(NAME test_silu COMMAND test_silu)
 add_test(NAME test_swiglu COMMAND test_swiglu)
+add_test(NAME test_linear COMMAND test_linear)

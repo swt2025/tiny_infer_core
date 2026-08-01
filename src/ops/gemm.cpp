@@ -84,4 +84,8 @@ namespace tinyinfer {
 		return c;
 	}
 
+	Matrix Gemm(const Matrix& a, const Matrix& b) {
+		return GemmIKJ(a, b);
+	}
+
 }  // namespace tinyinfer

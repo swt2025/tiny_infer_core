@@ -10,4 +10,5 @@ namespace tinyinfer {
 
 	Matrix GemmBlocked(const Matrix& a, const Matrix& b, std::size_t block_size);
 
+	Matrix Gemm(const Matrix& a, const Matrix& b);
 }  // namespace tinyinfer
