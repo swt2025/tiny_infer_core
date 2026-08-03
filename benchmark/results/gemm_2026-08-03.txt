@@ -1,0 +1,34 @@
+GemmIJK, M = 128, K = 128, N = 128, time = 8.00358 ms, GFLOPS = 0.524053
+GemmIKJ, M = 128, K = 128, N = 128, time = 5.25218 ms, GFLOPS = 0.798584
+GemmBlocked block_size: 16, M = 128, K = 128, N = 128, time = 4.24289 ms, GFLOPS = 0.988548
+GemmBlocked block_size: 32, M = 128, K = 128, N = 128, time = 4.18139 ms, GFLOPS = 1.00309
+GemmBlocked block_size: 64, M = 128, K = 128, N = 128, time = 4.28767 ms, GFLOPS = 0.978225
+GemmBlocked block_size: 128, M = 128, K = 128, N = 128, time = 4.2012 ms, GFLOPS = 0.998358
+
+GemmIJK, M = 256, K = 256, N = 256, time = 59.4051 ms, GFLOPS = 0.56484
+GemmIKJ, M = 256, K = 256, N = 256, time = 39.0608 ms, GFLOPS = 0.85903
+GemmBlocked block_size: 16, M = 256, K = 256, N = 256, time = 33.3596 ms, GFLOPS = 1.00584
+GemmBlocked block_size: 32, M = 256, K = 256, N = 256, time = 31.9376 ms, GFLOPS = 1.05062
+GemmBlocked block_size: 64, M = 256, K = 256, N = 256, time = 33.5918 ms, GFLOPS = 0.998888
+GemmBlocked block_size: 128, M = 256, K = 256, N = 256, time = 32.8032 ms, GFLOPS = 1.0229
+
+GemmIJK, M = 512, K = 512, N = 512, time = 498.345 ms, GFLOPS = 0.538654
+GemmIKJ, M = 512, K = 512, N = 512, time = 316.306 ms, GFLOPS = 0.848658
+GemmBlocked block_size: 16, M = 512, K = 512, N = 512, time = 268.257 ms, GFLOPS = 1.00067
+GemmBlocked block_size: 32, M = 512, K = 512, N = 512, time = 282.015 ms, GFLOPS = 0.95185
+GemmBlocked block_size: 64, M = 512, K = 512, N = 512, time = 268.113 ms, GFLOPS = 1.0012
+GemmBlocked block_size: 128, M = 512, K = 512, N = 512, time = 263.496 ms, GFLOPS = 1.01875
+
+GemmIJK, M = 1024, K = 1024, N = 1024, time = 3919.83 ms, GFLOPS = 0.547851
+GemmIKJ, M = 1024, K = 1024, N = 1024, time = 2415.18 ms, GFLOPS = 0.889162
+GemmBlocked block_size: 16, M = 1024, K = 1024, N = 1024, time = 2081.67 ms, GFLOPS = 1.03162
+GemmBlocked block_size: 32, M = 1024, K = 1024, N = 1024, time = 2011.91 ms, GFLOPS = 1.06738
+GemmBlocked block_size: 64, M = 1024, K = 1024, N = 1024, time = 2101.52 ms, GFLOPS = 1.02187
+GemmBlocked block_size: 128, M = 1024, K = 1024, N = 1024, time = 2039.38 ms, GFLOPS = 1.05301
+
+GemmIJK, M = 2048, K = 2048, N = 2048, time = 118445 ms, GFLOPS = 0.145045
+GemmIKJ, M = 2048, K = 2048, N = 2048, time = 20691.1 ms, GFLOPS = 0.830304
+GemmBlocked block_size: 16, M = 2048, K = 2048, N = 2048, time = 16885.6 ms, GFLOPS = 1.01743
+GemmBlocked block_size: 32, M = 2048, K = 2048, N = 2048, time = 16570.7 ms, GFLOPS = 1.03676
+GemmBlocked block_size: 64, M = 2048, K = 2048, N = 2048, time = 17111.2 ms, GFLOPS = 1.00401
+GemmBlocked block_size: 128, M = 2048, K = 2048, N = 2048, time = 16412.4 ms, GFLOPS = 1.04676
