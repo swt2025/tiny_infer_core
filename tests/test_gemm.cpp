@@ -30,7 +30,7 @@ namespace {
 		b(2, 0) = 11.0f;
 		b(2, 1) = 12.0f;
 
-		tinyinfer::Matrix c = tinyinfer::GemmNaive(a, b);
+		tinyinfer::Matrix c = tinyinfer::GemmIJK(a, b);
 
 		assert(c.rows() == 2);
 		assert(c.cols() == 2);
@@ -55,7 +55,7 @@ namespace {
 		identity(1, 0) = 0.0f;
 		identity(1, 1) = 1.0f;
 
-		tinyinfer::Matrix c = tinyinfer::GemmNaive(a, identity);
+		tinyinfer::Matrix c = tinyinfer::GemmIJK(a, identity);
 
 		assert(AlmostEqual(c(0, 0), 1.0f));
 		assert(AlmostEqual(c(0, 1), 2.0f));
@@ -67,7 +67,7 @@ namespace {
 		tinyinfer::Matrix a(2, 3, 1.0f);
 		tinyinfer::Matrix b(3, 2, 0.0f);
 
-		tinyinfer::Matrix c = tinyinfer::GemmNaive(a, b);
+		tinyinfer::Matrix c = tinyinfer::GemmIJK(a, b);
 
 		for (std::size_t i = 0; i < c.rows(); ++i) {
 			for (std::size_t j = 0; j < c.cols(); ++j) {
@@ -83,7 +83,7 @@ namespace {
 		bool caught = false;
 
 		try {
-			tinyinfer::Matrix c = tinyinfer::GemmNaive(a, b);
+			tinyinfer::Matrix c = tinyinfer::GemmIJK(a, b);
 			(void)c;
 		} catch (const std::invalid_argument&) {
 			caught = true;

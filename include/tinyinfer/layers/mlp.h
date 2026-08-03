@@ -1,6 +1,7 @@
 #include "tinyinfer/core/matrix.h"
 #include "tinyinfer/ops/linear.h"
 #include "tinyinfer/ops/swiglu.h"
+#include "tinyinfer/ops/gemm.h"
 
 namespace tinyinfer
 {
@@ -13,7 +14,8 @@ namespace tinyinfer
             Matrix up_weight,
             Matrix up_bias,
             Matrix down_weight,
-            Matrix down_bias);
+            Matrix down_bias,
+            const GemmBackend &gemm_backend = tinyinfer::GemmIKJBackend());
 
         Matrix forward(const Matrix &input) const;
 
@@ -24,5 +26,6 @@ namespace tinyinfer
         Matrix up_bias_;
         Matrix down_weight_;
         Matrix down_bias_;
+        const GemmBackend& gemm_backend_;
     };
 }

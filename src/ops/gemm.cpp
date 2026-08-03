@@ -46,10 +46,6 @@ namespace tinyinfer {
 		return c;
 	}
 
-	Matrix GemmNaive(const Matrix& a, const Matrix& b) {
-		return		GemmIJK(a, b);
-	}
-
 	Matrix GemmBlocked(const Matrix& a, const Matrix& b, std::size_t block_size) {
 		CheckGemmShape(a, b);
 		if (block_size == 0) {
@@ -83,9 +79,4 @@ namespace tinyinfer {
 		}
 		return c;
 	}
-
-	Matrix Gemm(const Matrix& a, const Matrix& b) {
-		return GemmIKJ(a, b);
-	}
-
 }  // namespace tinyinfer

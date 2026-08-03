@@ -1,10 +1,12 @@
 #include <cmath>
 #include <cstddef>
 #include <stdexcept>
+#include <utility>
 
 #include "tinyinfer/layers/mlp.h"
 #include "tinyinfer/ops/linear.h"
 #include "tinyinfer/ops/swiglu.h"
+#include "tinyinfer/ops/gemm.h"
 
 namespace tinyinfer
 {
@@ -14,12 +16,15 @@ namespace tinyinfer
         Matrix up_weight,
         Matrix up_bias,
         Matrix down_weight,
-        Matrix down_bias) : gate_weight_(gate_weight),
-                            gate_bias_(gate_bias),
-                            up_weight_(up_weight),
-                            up_bias_(up_bias),
-                            down_weight_(down_weight),
-                            down_bias_(down_bias)
+        Matrix down_bias,
+        const GemmBackend& gemm_backend)
+        : gate_weight_(std::move(gate_weight)),
+          gate_bias_(std::move(gate_bias)),
+          up_weight_(std::move(up_weight)),
+          up_bias_(std::move(up_bias)),
+          down_weight_(std::move(down_weight)),
+          down_bias_(std::move(down_bias)),
+          gemm_backend_(gemm_backend)
     {
         // Gate weight 尺寸
         std::size_t gate_weight_rows = gate_weight.rows();
@@ -106,13 +111,13 @@ namespace tinyinfer
             throw std::invalid_argument("input Matrix cols must be same with gate weight rows.");
         }
 
-        Matrix gate = Linear(input, gate_weight_, gate_bias_);
+        Matrix gate = Linear(input, gate_weight_, gate_bias_, gemm_backend_);
 
-        Matrix up = Linear(input, up_weight_, up_bias_);
+        Matrix up = Linear(input, up_weight_, up_bias_, gemm_backend_);
 
         Matrix hidden = SwiGLu(gate, up);
 
-        Matrix output = Linear(hidden, down_weight_, down_bias_);
+        Matrix output = Linear(hidden, down_weight_, down_bias_, gemm_backend_);
 
         return output;
     }
