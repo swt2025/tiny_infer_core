@@ -14,6 +14,9 @@ add_library(tinyinfer
 	src/ops/swiglu.cpp
 	src/ops/linear.cpp
 	src/layers/mlp.cpp
+	src/ops/rope.cpp
+	src/ops/transpose.cpp
+	src/ops/causal_mask.cpp
 )
 
 target_include_directories(tinyinfer
@@ -102,6 +105,35 @@ target_link_libraries(test_mlp
 )
 
 
+add_executable(test_rope
+	tests/test_rope.cpp
+)
+
+target_link_libraries(test_rope
+	PRIVATE
+	tinyinfer
+)
+
+
+add_executable(test_transpose
+	tests/test_transpose.cpp
+)
+
+target_link_libraries(test_transpose
+	PRIVATE
+	tinyinfer
+)
+
+add_executable(
+    test_causal_mask
+    tests/test_causal_mask.cpp
+)
+
+target_link_libraries(
+    test_causal_mask
+    PRIVATE tinyinfer
+)
+
 enable_testing()
 
 add_test(NAME test_matrix COMMAND test_matrix)
@@ -112,3 +144,11 @@ add_test(NAME test_silu COMMAND test_silu)
 add_test(NAME test_swiglu COMMAND test_swiglu)
 add_test(NAME test_linear COMMAND test_linear)
 add_test(NAME test_mlp COMMAND test_mlp)
+add_test(NAME test_rope COMMAND test_rope)
+add_test(NAME test_transpose COMMAND test_transpose)
+
+
+add_test(
+    NAME test_causal_mask
+    COMMAND test_causal_mask
+)
