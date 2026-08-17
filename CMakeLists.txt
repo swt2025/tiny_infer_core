@@ -17,6 +17,7 @@ add_library(tinyinfer
 	src/ops/rope.cpp
 	src/ops/transpose.cpp
 	src/ops/causal_mask.cpp
+	src/layers/attention.cpp
 )
 
 target_include_directories(tinyinfer
@@ -134,6 +135,16 @@ target_link_libraries(
     PRIVATE tinyinfer
 )
 
+add_executable(
+    test_attention
+    tests/test_attention.cpp
+)
+
+target_link_libraries(
+    test_attention
+    PRIVATE tinyinfer
+)
+
 enable_testing()
 
 add_test(NAME test_matrix COMMAND test_matrix)
@@ -151,4 +162,9 @@ add_test(NAME test_transpose COMMAND test_transpose)
 add_test(
     NAME test_causal_mask
     COMMAND test_causal_mask
+)
+
+add_test(
+    NAME test_attention
+    COMMAND test_attention
 )

@@ -15,7 +15,7 @@ namespace tinyinfer
             Matrix up_bias,
             Matrix down_weight,
             Matrix down_bias,
-            const GemmBackend &gemm_backend = tinyinfer::GemmIKJBackend());
+            const GemmBackend &gemm_backend);
 
         Matrix forward(const Matrix &input) const;
 
